@@ -9,13 +9,7 @@ RSpec.describe FileReader do
   end
 
   let(:line_processor) do
-    klass = Class.new do
-      def process(string)
-        string.strip
-      end
-    end
-
-    klass.new
+    instance_double(LineProcessor, process: 'day_object')
   end
 
   let(:sample_file_contents) do
@@ -25,9 +19,15 @@ RSpec.describe FileReader do
     ]
   end
 
+  it 'only counts lines that do begin with an integer' do
+    
+  end
+
   it 'reads file lines do' do
-    expect(subject).to include(
-      *sample_file_contents
-    )
+    expect(subject.length).to eq(30)
+  end
+
+  it 'reads football lines' do
+    expect(described_class.new(filepath: 'data/football.dat', line_processor: line_processor).read_teams.length).to eq(20)
   end
 end
